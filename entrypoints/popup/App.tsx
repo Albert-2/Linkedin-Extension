@@ -6,6 +6,16 @@ import './App.css';
 function App() {
   const [count, setCount] = useState(0);
 
+  const triggerAutomation = () => {
+    chrome.runtime.sendMessage({ type: 'runAutomation' }, (response) => {
+      if (response?.success) {
+        console.log('Automation triggered successfully.');
+      } else {
+        console.error('Failed to trigger automation:', response?.error);
+      }
+    });
+  };
+
   return (
     <>
       <div>
@@ -20,6 +30,9 @@ function App() {
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
+        </button>
+        <button onClick={triggerAutomation} className="automate-btn">
+          Automate LinkedIn
         </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
