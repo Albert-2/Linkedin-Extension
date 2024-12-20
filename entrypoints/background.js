@@ -33,14 +33,18 @@ export default defineBackground(() => {
                 let automationInterval = null;
 
                 // Function to click all visible "Connect" buttons
-                const clickConnectButtons = () => {
+                const clickConnectButtonsSequentially = async () => {
                   const buttons = document.querySelectorAll("button");
-                  buttons.forEach((button) => {
+
+                  for (const button of buttons) {
                     if (button.textContent?.trim() === "Connect") {
                       button.click();
                       console.log("Clicked a Connect button:", button);
+
+                      // Wait for 3 seconds before clicking the next button
+                      await new Promise((resolve) => setTimeout(resolve, 3000));
                     }
-                  });
+                  }
                 };
 
                 // Function to handle modals (e.g., "Send now" in popups)
@@ -57,7 +61,7 @@ export default defineBackground(() => {
                 // Start the periodic automation
                 automationInterval = setInterval(() => {
                   try {
-                    clickConnectButtons();
+                    clickConnectButtonsSequentially();
                     handleModals();
                   } catch (error) {
                     console.error("Error during automation:", error);
