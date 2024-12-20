@@ -22,18 +22,64 @@ export default defineBackground(() => {
             return;
           }
 
-          // Inject the content script into the active tab
+          // Inject the content script into the active tab (directly embedded here)
           chrome.scripting
             .executeScript({
               target: { tabId: activeTab.id },
-              files: ["content.js"], // Inject content.js (compiled from content.ts)
+              func: () => {
+                console.log("LinkedIn Automation Script Running.");
+
+                // Track interval ID to prevent overlapping intervals
+                let automationInterval = null;
+
+                // Function to click all visible "Connect" buttons
+                const clickConnectButtons = () => {
+                  const buttons = document.querySelectorAll("button");
+                  buttons.forEach((button) => {
+                    if (button.textContent?.trim() === "Connect") {
+                      button.click();
+                      console.log("Clicked a Connect button:", button);
+                    }
+                  });
+                };
+
+                // Function to handle modals (e.g., "Send now" in popups)
+                const handleModals = () => {
+                  const modalButton = document.querySelector(
+                    'button[aria-label="Send now"]'
+                  );
+                  if (modalButton) {
+                    modalButton.click();
+                    console.log("Clicked Send Now button");
+                  }
+                };
+
+                // Start the periodic automation
+                automationInterval = setInterval(() => {
+                  try {
+                    clickConnectButtons();
+                    handleModals();
+                  } catch (error) {
+                    console.error("Error during automation:", error);
+                  }
+                }, 3000);
+
+                // Stop the script when navigating away
+                window.addEventListener("beforeunload", () => {
+                  if (automationInterval !== null) {
+                    clearInterval(automationInterval);
+                    automationInterval = null;
+                    console.log("Stopped LinkedIn Automation Script.");
+                  }
+                });
+              },
             })
             .then(() => {
-              console.log("Content script injected successfully.");
+              console.log("Content script injected and running.");
               sendResponse({ success: true });
             })
             .catch((error) => {
-              console.error("Failed to inject content script:", error);
+              console.error("Failed to execute content script:", error);
               sendResponse({ success: false, error: error.message });
             });
         } else {
