@@ -4,7 +4,7 @@ import wxtLogo from '/wxt.svg';
 import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
 
   const triggerAutomation = () => {
     chrome.runtime.sendMessage({ type: 'runAutomation' }, (response) => {
@@ -18,7 +18,7 @@ function App() {
 
   return (
     <>
-      <div>
+      {/* <div>
         <a href="https://wxt.dev" target="_blank">
           <img src={wxtLogo} className="logo" alt="WXT logo" />
         </a>
@@ -40,7 +40,10 @@ function App() {
       </div>
       <p className="read-the-docs">
         Click on the WXT and React logos to learn more
-      </p>
+      </p> */}
+      <button onClick={triggerAutomation} className="automate-btn">
+        Automate LinkedIn
+      </button>
     </>
   );
 }
