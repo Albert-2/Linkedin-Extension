@@ -12,11 +12,16 @@ function App() {
   };
 
   return (
-    <>
-      <button onClick={triggerAutomation} className="automate-btn">
-        Automate LinkedIn
-      </button>
-    </>
+    <div className="app-container">
+      <header className="app-header">
+        <h1>LinkedIn Automation</h1>
+      </header>
+      <main className="app-main">
+        <button onClick={triggerAutomation} className="automate-btn">
+          Automate LinkedIn
+        </button>
+      </main>
+    </div>
   );
 }
 

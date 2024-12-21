@@ -1,12 +1,13 @@
-.automate-btn {
-  background-color: #0073b1;
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  margin-top: 10px;
+.app-container {
+  padding: 20px;
+  text-align: center;
+  border: 2px solid transparent;
+  border-radius: 10px;
 }
-
-.automate-btn:hover {
-  background-color: #005582;
+.automate-btn{
+  padding: 10px;
+  width: 200px;
+  font-weight: 600;
+  font-size: medium;
+  border-radius: 10px;
 }

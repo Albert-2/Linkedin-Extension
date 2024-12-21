@@ -22,12 +22,15 @@ export default defineBackground(() => {
             return;
           }
 
-          // Inject the content script into the active tab (directly embedded here)
+          // Inject the content script into the active tab
           chrome.scripting
             .executeScript({
               target: { tabId: activeTab.id },
               func: () => {
                 console.log("LinkedIn Automation Script Running.");
+
+                // Declare the count variable in the content script context
+                let count = 0;
 
                 // Track interval ID to prevent overlapping intervals
                 let automationInterval = null;
@@ -38,9 +41,15 @@ export default defineBackground(() => {
 
                   for (const button of buttons) {
                     if (button.textContent?.trim() === "Connect") {
+                      // // if want to limit the connection requests just un-comment this
+                      // if (count < 3) {
+                      //   count++; // Increment count
+                      // } else {
+                      //   console.log("Reached limit of 3 Connect clicks.");
+                      //   return; // Exit the function
+                      // }
                       button.click();
                       console.log("Clicked a Connect button:", button);
-
                       // Wait for 3 seconds before clicking the next button
                       await new Promise((resolve) => setTimeout(resolve, 3000));
                     }
